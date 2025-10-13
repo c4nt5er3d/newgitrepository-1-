@@ -1,0 +1,162 @@
+---
+title: "RWorksheet_Cababasay#3a"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+---
+title: "RWorksheet_Cababasay#3a"
+author: "Mike Jayson Cababasay"
+output: pdf_document
+---
+
+# Worksheet 3a – Using Vectors, Matrices and Arrays in R
+
+## 1. Using Vectors
+
+### a. First 11 uppercase letters
+```{r}
+LETTERS[1:11]
+```
+
+### b. Odd-numbered letters
+```{r}
+LETTERS[seq(1, 26, by = 2)]
+```
+
+### c. Vowels in uppercase
+```{r}
+LETTERS[c(1,5,9,15,21)]
+```
+
+### d. Last 5 lowercase letters
+```{r}
+letters[22:26]
+```
+
+### e. Lowercase letters 15 to 24
+```{r}
+letters[15:24]
+```
+
+---
+
+## 2. Average April Temperatures
+
+### a. Character vector of cities
+```{r}
+city <- c("Tuguegarao City","Manila","Iloilo City","Tacloban","Samal Island","Davao City")
+city
+```
+
+### b. Numeric vector of temperatures (°C)
+```{r}
+temp <- c(42,39,34,34,30,27)
+temp
+```
+
+### c. Combine into data frame
+```{r}
+weather <- data.frame(city, temp)
+weather
+```
+
+### d. Rename columns to City and Temperature
+```{r}
+names(weather) <- c("City","Temperature")
+weather
+```
+
+### e. Show structure
+```{r}
+str(weather)
+```
+
+### f. Rows 3 and 4
+```{r}
+weather[c(3,4), ]
+```
+
+### g. Highest and lowest temperature cities
+```{r}
+weather[which.max(weather$Temperature), ]
+weather[which.min(weather$Temperature), ]
+```
+
+---
+
+## 3. Using Matrices
+
+### a. Matrix from 1–8 and 11–14 (4 cols × 3 rows)
+```{r}
+mat <- matrix(c(1:8,11:14), nrow = 3, ncol = 4)
+mat
+```
+
+### b. Multiply by 2
+```{r}
+mat2 <- mat * 2
+mat2
+```
+
+### c. Row 2 content
+```{r}
+mat2[2, ]
+```
+
+### d. Columns 3–4 of rows 1–2
+```{r}
+mat2[1:2, 3:4]
+```
+
+### e. Columns 2–3 of row 3
+```{r}
+mat2[3, 2:3]
+```
+
+### f. Column 4 only
+```{r}
+mat2[, 4]
+```
+
+### g. Name rows and columns
+```{r}
+rownames(mat2) <- c("isa","dalawa","tatlo")
+colnames(mat2) <- c("uno","dos","tres","quatro")
+mat2
+```
+
+### h. Reshape original matrix to 2 cols × 6 rows
+```{r}
+dim(mat) <- c(6,2)
+mat
+```
+
+---
+
+## 4. Using Arrays
+
+### a. Create 3-D array (4 cols × 2 rows)
+```{r}
+nums <- c(1,2,3,6,7,8,9,0,3,4,5,1)
+arr <- array(rep(nums,2), dim = c(2,4,3))
+arr
+```
+
+### b. Check dimensions
+```{r}
+dim(arr)
+```
+
+### c. Name rows, columns, and dimensions
+```{r}
+rownames(arr) <- letters[1:2]
+colnames(arr) <- LETTERS[1:4]
+dimnames(arr) <- list(
+  row = letters[1:2],
+  col = LETTERS[1:4],
+  dim = c("1st-Dimensional Array","2nd-Dimensional Array","3rd-Dimensional Array")
+)
+arr
+```
