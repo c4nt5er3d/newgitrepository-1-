@@ -1,0 +1,96 @@
+---
+title: "RWorksheet_Cababasay#3b"
+author: "Mike Jayson Cababasay"
+output:
+  pdf_document:
+    latex_engine: xelatex
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+\`\`\`{r} \# 1. Creating and Exploring a Data Frame
+
+# a. Create the data frame
+
+household \<- data.frame( Sex = c("Male", "Female", "Male", "Female",
+"Female"), Types_of_Houses = c("Wood", "Concrete", "Semi-Concrete",
+"Concrete", "Wood"), Fathers_Occupation = c("Farmer", "Driver",
+"Farmer", "Others", "Farmer"), Number_of_Siblings_Attending = c(3, 5, 2,
+6, 7) ) household
+
+# b. Describe the data (structure and summary)
+
+str(household) summary(household)
+
+# c. Is the mean number of siblings attending 5?
+
+mean(household$Number_of_Siblings_Attending) == 5
+mean(household$Number_of_Siblings_Attending)
+
+# d. Extract the 1st two rows and all columns
+
+household[1:2, ]
+
+# e. Extract 3rd and 5th rows with 2nd and 4th columns
+
+household[c(3,5), c(2,4)]
+
+# f. Select only the variable "Types_of_Houses"
+
+types_houses \<- household\$Types_of_Houses types_houses
+
+# g. Select all male respondents whose father's occupation was Farmer
+
+subset(household, Sex == "Male" & Fathers_Occupation == "Farmer")
+
+# h. Select all female respondents with \>=5 siblings attending school
+
+subset(household, Sex == "Female" & Number_of_Siblings_Attending \>= 5)
+
+# 2. Creating an Empty Data Frame
+
+df \<- data.frame( Ints = integer(), Doubles = double(), Characters =
+character(), Logicals = logical(), Factors = factor(), stringsAsFactors
+= FALSE ) print("Structure of the empty dataframe:") str(df)
+
+# 3. Importing and Converting CSV Data
+
+# a. Save and import the CSV file
+
+write.csv(household, "HouseholdData.csv", row.names = FALSE)
+imported_data \<- read.csv("HouseholdData.csv") imported_data
+
+# b. Convert Sex to factor, then to integer (Male = 1, Female = 2)
+
+imported_data$Sex <- factor(imported_data$Sex, levels = c("Male",
+"Female"), labels = c(1, 2))
+imported_data$Sex <- as.integer(imported_data$Sex) imported_data
+
+# c. Convert Type of Houses to factor, then to integer (Wood = 1, Concrete = 2, Semi-Concrete = 3)
+
+imported_data$Types_of_Houses <- factor(imported_data$Types_of_Houses,
+levels = c("Wood", "Concrete", "Semi-Concrete"), labels = c(1, 2, 3))
+imported_data$Types_of_Houses <- as.integer(imported_data$Types_of_Houses)
+imported_data
+
+# d. Convert Fathers_Occupation to factor, then to integer (Farmer = 1, Driver = 2, Others = 3)
+
+imported_data$Fathers_Occupation <- factor(imported_data$Fathers_Occupation,
+levels = c("Farmer", "Driver", "Others"), labels = c(1, 2, 3))
+imported_data$Fathers_Occupation <- as.integer(imported_data$Fathers_Occupation)
+imported_data
+
+# e. Select all female respondents (Sex = 2) whose father's occupation is Driver (2)
+
+subset(imported_data, Sex == 2 & Fathers_Occupation == 2)
+
+# f. Select respondents with \>=5 siblings attending school
+
+subset(imported_data, Number_of_Siblings_Attending \>= 5)
+
+# 4. Interpretation
+
+# The dataset represents household information including gender, housing type, father's occupation, and number of siblings attending school.
+
+# The numeric conversions allow for easier statistical analysis and plotting later.
