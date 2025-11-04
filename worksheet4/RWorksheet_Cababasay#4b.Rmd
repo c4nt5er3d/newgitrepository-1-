@@ -1,0 +1,186 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+vectorA <- c(1, 2, 3, 4, 5)
+matrix_result <- matrix(0, nrow = 5, ncol = 5)
+
+for (i in 1:5) {
+  for (j in 1:5) {
+    matrix_result[i, j] <- abs(vectorA[i] - vectorA[j])
+  }
+}
+
+print(matrix_result)
+
+
+for (i in 1:5) {
+  output <- ""
+  for (j in 1:i) {
+    output <- paste0(output, "*")
+  }
+  print(output)
+}
+
+
+fib_sequence <- function() {
+  start <- as.integer(readline(prompt = "Enter starting number: "))
+  
+  if (start <= 0) {
+    print("Please enter a positive number")
+    return()
+  }
+  
+  a <- 0
+  b <- 1
+  count <- 0
+  result <- c()
+  
+  repeat {
+    if (count >= start) {
+      if (b > 500) {
+        break
+      }
+      result <- c(result, b)
+    }
+    
+    temp <- a + b
+    a <- b
+    b <- temp
+    count <- count + 1
+  }
+  print(result)
+}
+
+
+household_data <- read.csv("import_march.csv")
+head(household_data, 6)
+
+male_subset <- household_data[household_data$Gender == "Male", ]
+female_subset <- household_data[household_data$Gender == "Female", ]
+
+print(paste("Number of male observations:", nrow(male_subset)))
+print(paste("Number of female observations:", nrow(female_subset)))
+
+gender_counts <- table(household_data$Gender)
+
+barplot(gender_counts,
+        main = "Number of Males and Females in Household",
+        xlab = "Gender",
+        ylab = "Count",
+        col = c("pink", "lightblue"),
+        legend.text = c("Female", "Male"),
+        beside = TRUE)
+
+
+expenses <- c(60, 10, 5, 25)
+expense_labels <- c("Food", "Electricity", "Savings", "Miscellaneous")
+percentages <- paste(expense_labels, expenses, "%")
+
+pie(expenses,
+    labels = percentages,
+    main = "Dela Cruz Family Monthly Expenses",
+    col = c("skyblue", "yellow", "green", "orange"))
+
+
+data(iris)
+str(iris)
+
+iris_means <- data.frame(
+  Sepal.Length = mean(iris$Sepal.Length),
+  Sepal.Width = mean(iris$Sepal.Width),
+  Petal.Length = mean(iris$Petal.Length),
+  Petal.Width = mean(iris$Petal.Width)
+)
+print(iris_means)
+
+species_counts <- table(iris$Species)
+pie(species_counts,
+    main = "Iris Species Distribution",
+    col = c("red", "blue", "green"),
+    labels = paste(names(species_counts), species_counts))
+
+setosa <- iris[iris$Species == "setosa", ]
+versicolor <- iris[iris$Species == "versicolor", ]
+virginica <- iris[iris$Species == "virginica", ]
+
+print("Last 6 rows of Setosa:")
+print(tail(setosa, 6))
+
+print("Last 6 rows of Versicolor:")
+print(tail(versicolor, 6))
+
+print("Last 6 rows of Virginica:")
+print(tail(virginica, 6))
+
+iris$Species <- as.factor(iris$Species)
+
+plot(iris$Sepal.Length, iris$Sepal.Width,
+     main = "Iris Dataset",
+     sub = "Sepal width and length",
+     xlab = "Sepal Length",
+     ylab = "Sepal Width",
+     pch = c(16, 17, 18)[as.numeric(iris$Species)],
+     col = c("red", "blue", "green")[as.numeric(iris$Species)])
+
+legend("topright",
+       legend = levels(iris$Species),
+       pch = c(16, 17, 18),
+       col = c("red", "blue", "green"))
+
+
+library(readxl)
+library(dplyr)
+
+alexa <- read_xlsx("alexa-file.xlsx")
+
+alexa$variation <- gsub("Black  Dot", "Black Dot", alexa$variation)
+alexa$variation <- gsub("Black  Plus", "Black Plus", alexa$variation)
+alexa$variation <- gsub("Black  Show", "Black Show", alexa$variation)
+alexa$variation <- gsub("Black  Spot", "Black Spot", alexa$variation)
+alexa$variation <- gsub("White  Dot", "White Dot", alexa$variation)
+alexa$variation <- gsub("White  Plus", "White Plus", alexa$variation)
+alexa$variation <- gsub("White  Show", "White Show", alexa$variation)
+alexa$variation <- gsub("White  Spot", "White Spot", alexa$variation)
+
+head(alexa, 10)
+
+variations <- alexa %>% count(variation)
+print(variations)
+
+save(variations, file = "variations.RData")
+
+barplot(variations$n,
+        names.arg = variations$variation,
+        main = "Total Number of Alexa Variations",
+        xlab = "Variation",
+        ylab = "Count",
+        col = rainbow(nrow(variations)),
+        las = 2,
+        cex.names = 0.7)
+
+black_vars <- variations[grepl("Black", variations$variation), ]
+white_vars <- variations[grepl("White", variations$variation), ]
+
+par(mfrow = c(1, 2))
+
+barplot(black_vars$n,
+        names.arg = black_vars$variation,
+        main = "Black Variations",
+        xlab = "Variation",
+        ylab = "Count",
+        col = "black",
+        las = 2,
+        cex.names = 0.8)
+
+barplot(white_vars$n,
+        names.arg = white_vars$variation,
+        main = "White Variations",
+        xlab = "Variation",
+        ylab = "Count",
+        col = "gray",
+        las = 2,
+        cex.names = 0.8)
+
+par(mfrow = c(1, 1))
